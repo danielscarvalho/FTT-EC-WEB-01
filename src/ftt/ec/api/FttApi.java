@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import ftt.ec.api.controller.*;
+
 /**
  * Servlet implementation class FttApi
  */
@@ -25,6 +27,7 @@ public class FttApi extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private long counter;
+
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -53,7 +56,6 @@ public class FttApi extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		
 		String name = request.getParameter("user_name");
 		
@@ -80,8 +82,10 @@ public class FttApi extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		//doGet(request, response);
+
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("plain/text"); //mime type
+		
 		int a = 0;
 		int b = 0;
 		
@@ -99,8 +103,14 @@ public class FttApi extends HttpServlet {
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("PUT recebido!!");
+		response.setCharacterEncoding("UTF-8");
+		response.setContentType("plain/text"); //mime type
+		
+		WebTools webTools = new WebTools();
+		
+		response.getWriter().append("PUT recebido!! - " + new Date() + " - " + webTools.getClientIpAddress(request));
+		System.out.print("PUT CHAMADO - " + new Date());
+		
 
 	}
 
@@ -108,61 +118,12 @@ public class FttApi extends HttpServlet {
 	 * @see HttpServlet#doDelete(HttpServletRequest, HttpServletResponse)
 	 */
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("plain/text"); //mime type
-		response.getWriter().append("Registro apagado!!! ☠");
+		response.getWriter().append("Registro apagado!!! ☠ " + new Date());
 
 	}
 	
-	// https://mkyong.com/java/how-to-get-http-request-header-in-java/
-    private Map<String, String> getHeadersInfo(HttpServletRequest request) {
 
-        Map<String, String> map = new HashMap<String, String>();
-
-        Enumeration headerNames = request.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String key = (String) headerNames.nextElement();
-            String value = request.getHeader(key);
-            map.put(key, value);
-        }
-
-        return map;
-    }
-
-    // https://stackoverflow.com/questions/14525982/getting-request-payload-from-post-request-in-java-servlet
-    public static String getBody(HttpServletRequest request) throws IOException {
-
-        String body = null;
-        StringBuilder stringBuilder = new StringBuilder();
-        BufferedReader bufferedReader = null;
-
-        try {
-            InputStream inputStream = request.getInputStream();
-            if (inputStream != null) {
-                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                char[] charBuffer = new char[128];
-                int bytesRead = -1;
-                while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
-                    stringBuilder.append(charBuffer, 0, bytesRead);
-                }
-            } else {
-                stringBuilder.append("");
-            }
-        } catch (IOException ex) {
-            throw ex;
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException ex) {
-                    throw ex;
-                }
-            }
-        }
-
-        body = stringBuilder.toString();
-        return body;
-    }
     
 }
